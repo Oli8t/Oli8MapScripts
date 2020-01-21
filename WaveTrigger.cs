@@ -24,9 +24,9 @@ namespace Oli8MapScripts
       return true;
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {
-      if (other.GetComponentInParent<Creature>() == Creature.player)
+      if (other.GetComponentInParent<Creature>() == Creature.player && !LevelDefinition.current.modeRank.mode.GetModule<LevelModuleWave>().isRunning)
       {
         var page = GameObject.FindObjectsOfType<UIPageWaves>().Where(p => p.id == data.waveTriggerData.waveSelectorId).First();
         if (page != null)

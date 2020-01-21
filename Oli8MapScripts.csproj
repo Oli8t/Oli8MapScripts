@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="AnimationTrigger.cs" />
     <Compile Include="CustomTriggerModule.cs" />
+    <Compile Include="RemoveGameObjectsModule.cs" />
     <Compile Include="SaveUnpooledItems.cs" />
     <Compile Include="SceneTrigger.cs" />
     <Compile Include="StartingPlayerGear.cs" />
