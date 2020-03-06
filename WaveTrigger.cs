@@ -26,18 +26,32 @@ namespace Oli8MapScripts
 
     void OnTriggerStay(Collider other)
     {
-      if (other.GetComponentInParent<Creature>() == Creature.player && !LevelDefinition.current.modeRank.mode.GetModule<LevelModuleWave>().isRunning)
+      try
       {
-        var page = GameObject.FindObjectsOfType<UIPageWaves>().Where(p => p.id == data.waveTriggerData.waveSelectorId).First();
-        if (page != null)
+        if (LoadingCamera.cam.enabled == false &&
+          other.GetComponentInParent<Creature>() == Creature.player &&
+          Creature.player.health.currentHealth > 0 &&
+          LevelDefinition.current != null &&
+          LevelDefinition.current.modeRank != null &&
+          LevelDefinition.current.modeRank.mode != null &&
+          LevelDefinition.current.modeRank.mode.GetModule<LevelModuleWave>() != null &&
+          !LevelDefinition.current.modeRank.mode.GetModule<LevelModuleWave>().isRunning)
         {
-          LevelDefinition.current.modeRank.mode.GetModule<LevelModuleWave>().StartWave(page.spawnLocation, Catalog.current.GetData<WaveData>(data.waveTriggerData.waveId));
+          var page = GameObject.FindObjectsOfType<UIPageWaves>().Where(p => p.id == data.waveTriggerData.waveSelectorId).First();
+          if (page != null)
+          {
+            LevelDefinition.current.modeRank.mode.GetModule<LevelModuleWave>().StartWave(page.spawnLocation, Catalog.current.GetData<WaveData>(data.waveTriggerData.waveId));
+          }
+          else
+          {
+            Debug.LogError("Page not found for wave trigger " + data.customReferenceId);
+          }
+          GameObject.Destroy(this);
         }
-        else
-        {
-          Debug.LogError("Page not found for wave trigger " + data.customReferenceId);
-        }
-        GameObject.Destroy(this);
+      }
+      catch(System.Exception e)
+      {
+
       }
     }
   }
